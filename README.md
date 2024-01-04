@@ -34,11 +34,21 @@ iex> ExPression.eval("div(x, y)", bindings: %{"x" => 5, "y" => 2}, functions_mod
   - [x] ==, !=, <, <=, >, >=
 - [x] Math Operators
   - [x] +, -, *, /
+  - [ ] ** (power operator)
 - [x] Access Operators
   - [x] Field access (`obj.field_name`)
   - [x] Access array element by index (`[1, 2, 3][0]`)
   - [x] Access object field in runtime (`{"fr": "France", "en": "England"}[country]`)
 - [ ] Error handling
+  - [ ] Syntax errors 
+    - [ ] Location of error
+  - [ ] Runtime errors
+    - [ ] Return as string messages
+    - [ ] Catch exceptions from functions
+    - [ ] Handle invalid data types for operators
+- [ ] AST Validations
+  - [ ] Calling non existing functions
+  - [ ] Invalid data types
 
 ## Contribution
 Feel free to make a pull request. All contributions are appreciated!
