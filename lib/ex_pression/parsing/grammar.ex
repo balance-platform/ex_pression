@@ -35,7 +35,7 @@ defmodule ExPression.Parsing.Grammar do
       L4 <- L5 * star(L4BinOp)
       L5 <- L6 * star(L5BinOp)
       L6 <- L7 * star(L6BinOp)
-      L7 <- (FCall | Object | Array | Var | Const) * star(AccessOp)
+      L7 <- (FCall | Object | Array | Var | Const | "(" * star(S) * Expr * star(S) * ")") * star(AccessOp)
       Var <- Identifier * fn [name | cs] -> [{:var, [name]} | cs] end
       Const <- String | Float | Integer  | Null | True | False
 

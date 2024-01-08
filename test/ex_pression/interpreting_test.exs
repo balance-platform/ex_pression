@@ -59,6 +59,11 @@ defmodule ExPression.InterpretingTest do
       assert {:ok, 19} == Interpreting.eval(ast)
     end
 
+    test "parenthesis" do
+      {:ok, ast} = Parsing.parse("(2+3)*(4+5)")
+      assert {:ok, 45} == Interpreting.eval(ast)
+    end
+
     test "bool 1" do
       {:ok, ast} = Parsing.parse("true or false")
       assert {:ok, true} == Interpreting.eval(ast)
