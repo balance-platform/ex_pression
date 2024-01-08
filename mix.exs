@@ -5,7 +5,7 @@ defmodule ExPression.MixProject do
     [
       app: :ex_pression,
       version: "0.1.0",
-      elixir: "~> 1.16",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -27,7 +27,7 @@ defmodule ExPression.MixProject do
       # Static Code Analysis
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       # Credo formatter
-      {:recode, "~> 0.6", only: :dev},
+      {:recode, "~> 0.6", only: :dev, runtime: false},
       # Types analysis
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
