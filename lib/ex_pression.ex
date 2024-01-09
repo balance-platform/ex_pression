@@ -39,14 +39,14 @@ defmodule ExPression do
   * `:functions_module` - module with functions that will be accessible from expressions.
 
   ## Examples
-  iex> eval("1 + 0.5")
-  {:ok, 1.5}
-  iex> eval("div(x, y)", bindings: %{"x" => 5, "y" => 2}, functions_module: Kernel)
-  {:ok, 2}
-  iex> eval(~s({"a": [1, 2, 3]}[a][b]), bindings: %{"a" => "a", "b" => 2})
-  {:ok, 3}
-  iex> eval("not true or false or 1 == 1")
-  {:ok, true}
+      iex> eval("1 + 0.5")
+      {:ok, 1.5}
+      iex> eval("div(x, y)", bindings: %{"x" => 5, "y" => 2}, functions_module: Kernel)
+      {:ok, 2}
+      iex> eval(~s({"a": [1, 2, 3]}[a][b]), bindings: %{"a" => "a", "b" => 2})
+      {:ok, 3}
+      iex> eval("not true or false or 1 == 1")
+      {:ok, true}
   """
   @spec eval(binary() | ast(), Keyword.t()) :: {:ok, any()} | {:error, ExPression.Error.t()}
   def eval(str_or_ast, opts \\ [])
