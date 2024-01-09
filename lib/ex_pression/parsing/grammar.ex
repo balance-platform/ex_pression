@@ -26,7 +26,9 @@ defmodule ExPression.Parsing.Grammar do
       Integer <- int(opt('-') * ('0' | {'1'..'9'}) * star({'0'..'9'}))
       Float <- float(opt('-') * ('0' | {'1'..'9'}) * star({'0'..'9'}) * (("." * +{'0'..'9'}) | ({'e', 'E'} * opt({'+', '-'}) * +{'0'..'9'})))
 
-      Identifier <- !("false" | "true" | "null" | "or" | "and" | "not") * str({'a'..'z'} * star({'a'..'z', 'A'..'Z', '_', '0'..'9'}))
+      KeyWord <- ("false" | "true" | "null" | "or" | "and" | "not")
+      Identifier1 <- {'a'..'z', 'A'..'Z', '_'} * star({'a'..'z', 'A'..'Z', '_', '0'..'9'})
+      Identifier <- str((KeyWord * Identifier1) | (!KeyWord * Identifier1))
 
       # Expressions
       Expr <- star(S) * L2 * star(L1BinOp)

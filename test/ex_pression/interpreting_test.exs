@@ -139,4 +139,28 @@ defmodule ExPression.InterpretingTest do
       assert {:ok, "d"} == Interpreting.eval(ast, %{"x" => "c"})
     end
   end
+
+  describe "#sad_path" do
+    test "unbound variable 1" do
+      {:ok, ast} = Parsing.parse(~s({"a": x}))
+      assert {:error, {:var_not_bound, "x"}} == Interpreting.eval(ast)
+    end
+
+    test "unbound variable 2" do
+      {:ok, ast} = Parsing.parse(~s([1, x]))
+      assert {:error, {:var_not_bound, "x"}} == Interpreting.eval(ast)
+    end
+
+    test "function not defined" do
+      {:ok, ast} = Parsing.parse("not_exist()")
+      assert {:error, {:fun_not_defined, "not_exist", 0}} == Interpreting.eval(ast)
+    end
+
+    test "function call error" do
+      {:ok, ast} = Parsing.parse("div(5, 0)")
+
+      assert {:error, {:function_call_exception, :div, [5, 0], %ArithmeticError{}, _msg}} =
+               Interpreting.eval(ast, %{}, Kernel)
+    end
+  end
 end

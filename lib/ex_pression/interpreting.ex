@@ -15,29 +15,24 @@ defmodule ExPression.Interpreting do
 
   defp do_eval({:fun_call, [name | args]}, context) do
     args = Enum.map(args, &do_eval(&1, context))
+    arity = length(args)
 
-    case Enum.find(args, fn
-           {:error, _e} -> true
-           _arg -> false
-         end) do
-      nil ->
-        f_name = String.to_existing_atom(name)
-        arity = length(args)
-        # TODO: wrap error on function exception ???
-        cond do
-          context.functions_module &&
-              Kernel.function_exported?(context.functions_module, f_name, arity) ->
-            apply(context.functions_module, f_name, args)
+    with :ok <- args_find_error(args),
+         {:ok, f_name} <- string_to_existing_atom(name) do
+      cond do
+        context.functions_module &&
+            Kernel.function_exported?(context.functions_module, f_name, arity) ->
+          safe_fun_call(context.functions_module, f_name, args)
 
-          Code.ensure_loaded(StandardLib) && Kernel.function_exported?(StandardLib, f_name, arity) ->
-            apply(StandardLib, f_name, args)
+        Code.ensure_loaded(StandardLib) && Kernel.function_exported?(StandardLib, f_name, arity) ->
+          safe_fun_call(StandardLib, f_name, args)
 
-          true ->
-            {:error, {:fun_not_defined, f_name, arity}}
-        end
-
-      error ->
-        error
+        true ->
+          {:error, {:fun_not_defined, f_name, arity}}
+      end
+    else
+      {:error, :atom_not_exist} -> {:error, {:fun_not_defined, name, arity}}
+      error -> error
     end
   end
 
@@ -54,7 +49,7 @@ defmodule ExPression.Interpreting do
   defp do_eval({:var, [name]}, context) do
     case context.bindings do
       %{^name => value} -> value
-      _other -> {:error, {:var_not_defined, name}}
+      _other -> {:error, {:var_not_bound, name}}
     end
   end
 
@@ -90,7 +85,7 @@ defmodule ExPression.Interpreting do
       nil ->
         Map.new(obj)
 
-      error ->
+      {_key, error} ->
         error
     end
   end
@@ -127,5 +122,30 @@ defmodule ExPression.Interpreting do
 
   defp eval_access(a, b) when is_list(a) do
     Enum.at(a, b)
+  end
+
+  defp args_find_error(args) do
+    case Enum.find(args, fn
+           {:error, _e} -> true
+           _arg -> false
+         end) do
+      nil -> :ok
+      error -> error
+    end
+  end
+
+  defp string_to_existing_atom(str) when is_binary(str) do
+    {:ok, String.to_existing_atom(str)}
+  rescue
+    _e ->
+      {:error, :atom_not_exist}
+  end
+
+  defp safe_fun_call(m, f, args) do
+    apply(m, f, args)
+  rescue
+    e ->
+      msg = Exception.format(:error, e, __STACKTRACE__)
+      {:error, {:function_call_exception, f, args, e, msg}}
   end
 end

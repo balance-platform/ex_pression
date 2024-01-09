@@ -64,4 +64,14 @@ defmodule ExPression.ParsingTest do
                Parsing.parse(~s({"a": 1 + 2, "b": [{}], "c": {"d": "e"}}))
     end
   end
+
+  describe "#sad_path" do
+    test "invalid expression 2" do
+      assert {:error, {:parsing_error, "}"}} == Parsing.parse(~s({}}))
+    end
+
+    test "invalid expression 3" do
+      assert assert {:error, {:parsing_error, " +"}} == Parsing.parse(~s(1 +))
+    end
+  end
 end
