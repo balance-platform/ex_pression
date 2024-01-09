@@ -74,7 +74,7 @@ defmodule ExPression.Parsing.Grammar do
 
       L3UnOp <- "not" * +S * L3 * fn [x | cs ] -> [{:not, [x]} | cs] end
 
-      L4BinOp <- star(S) * str("==" | "!=") * star(S) * L4 * fn [b, op, a | cs] ->
+      L4BinOp <- star(S) * str("==" | "!=" | ">=" | ">" | "<=" | "<") * star(S) * L4 * fn [b, op, a | cs] ->
         case op do
           "==" -> [{:==, [a, b]} | cs]
           "!=" -> [{:!=, [a, b]} | cs]
