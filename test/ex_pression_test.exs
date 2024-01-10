@@ -44,5 +44,9 @@ defmodule ExPressionTest do
                 }
               }} = ExPression.eval("div(5, 0)", functions_module: Kernel)
     end
+
+    test "string" do
+      assert {:ok, "string"} == ExPression.eval(~s("string"))
+    end
   end
 end

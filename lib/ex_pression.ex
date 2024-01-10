@@ -48,17 +48,16 @@ defmodule ExPression do
       iex> eval("not true or false or 1 == 1")
       {:ok, true}
   """
-  @spec eval(binary() | ast(), Keyword.t()) :: {:ok, any()} | {:error, ExPression.Error.t()}
-  def eval(str_or_ast, opts \\ [])
-
-  def eval(expression_str, opts) when is_binary(expression_str) do
+  @spec eval(binary(), Keyword.t()) :: {:ok, any()} | {:error, ExPression.Error.t()}
+  def eval(expression_str, opts \\ []) when is_binary(expression_str) do
     case parse(expression_str) do
-      {:ok, ast} -> eval(ast, opts)
+      {:ok, ast} -> eval_ast(ast, opts)
       error -> error
     end
   end
 
-  def eval(ast, opts) do
+  @spec eval_ast(ast(), Keyword.t()) :: {:ok, any()} | {:error, ExPression.Error.t()}
+  def eval_ast(ast, opts \\ []) do
     bindings = Keyword.get(opts, :bindings, %{})
     functions_module = Keyword.get(opts, :functions_module)
 

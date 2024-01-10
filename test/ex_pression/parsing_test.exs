@@ -4,6 +4,10 @@ defmodule ExPression.ParsingTest do
   alias ExPression.Parsing
 
   describe "#happy_path" do
+    test "string" do
+      assert {:ok, "string"} == Parsing.parse(~s("string"))
+    end
+
     test "function call" do
       assert {:ok, {:fun_call, ["f", {:var, ["x"]}]}} == Parsing.parse("f(x)")
     end
