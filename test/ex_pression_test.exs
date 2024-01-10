@@ -45,8 +45,8 @@ defmodule ExPressionTest do
               }} = ExPression.eval("div(5, 0)", functions_module: Kernel)
     end
 
-    test "string" do
-      assert {:ok, "string"} == ExPression.eval(~s("string"))
+    test "Support cyrillic symbols in strings" do
+      assert {:ok, "Привет!"} == ExPression.eval(~s("Привет!"))
     end
   end
 end

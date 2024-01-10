@@ -19,7 +19,7 @@ defmodule ExPression.Parsing.Grammar do
       Xdigit <- {'0'..'9', 'a'..'f', 'A'..'F'}
       Unicode_escape <- 'u' * Xdigit[4]
       Escape <- '\\' * ({'"', '\\', '/', 'b', 'f', 'n', 'r', 't'} | Unicode_escape)
-      String_body <- star(Escape) * star(+({'\x20'..'\x7f'} - {'"'} - {'\\'}) * star(Escape))
+      String_body <- star(Escape) * star(+({'\x20'..'\x7f', 'а'..'я', 'А'..'Я'} - {'"'} - {'\\'}) * star(Escape))
       String <- '"' * str(String_body) * '"'
 
       # Numbers
