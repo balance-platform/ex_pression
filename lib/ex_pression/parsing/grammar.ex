@@ -50,17 +50,17 @@ defmodule ExPression.Parsing.Grammar do
       # Arrays
       ArrayItem <- Expr * fn [v, a | cs] -> [[v | a] | cs] end
 
-      Array <- "[" * fn cs -> [[] | cs] end * (ArrayItem * star("," * ArrayItem) | star(S)) * "]" *
+      Array <- "[" * fn cs -> [[] | cs] end * (ArrayItem * star("," * ArrayItem) | star(S)) * star(S) * "]" *
           fn [a | cs] -> [{:array, Enum.reverse(a)} | cs] end
 
       # Objects
       ObjPair <- star(S) * String * star(S) * ":" * Expr * fn [v, k, obj | cs] -> [[{k, v} | obj] | cs] end
-      Object <- "{" * fn cs -> [[] | cs] end * (ObjPair * star("," * ObjPair) | star(S)) * "}" * fn [obj | cs] -> [{:obj, obj} | cs] end
+      Object <- "{" * fn cs -> [[] | cs] end * (ObjPair * star("," * ObjPair) | star(S)) * star(S) * "}" * fn [obj | cs] -> [{:obj, obj} | cs] end
 
       # Access
       AccessOp <- Access | FieldAccess
       FieldAccess <- star(L7) * "." * Identifier * fn [field, obj | cs] -> [{:field_access, [obj, field]} | cs] end
-      Access <- star((FCall | Var | Const) * star(AccessOp)) * "[" * Expr * "]" * fn [arg, obj | cs] -> [{:access, [obj, arg]} | cs] end
+      Access <- star((FCall | Var | Const) * star(AccessOp)) * "[" * Expr * star(S) * "]" * fn [arg, obj | cs] -> [{:access, [obj, arg]} | cs] end
 
       # Operators
       # Op With lowest priority

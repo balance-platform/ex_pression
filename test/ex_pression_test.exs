@@ -48,5 +48,14 @@ defmodule ExPressionTest do
     test "Support cyrillic symbols in strings" do
       assert {:ok, "Привет!"} == ExPression.eval(~s("Привет!"))
     end
+
+    test "Multi line JSON" do
+      assert {:ok, %{"a" => "b"}} ==
+               ExPression.eval("""
+               {
+                 "a": "b"
+               }
+               """)
+    end
   end
 end
