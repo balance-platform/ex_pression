@@ -43,10 +43,12 @@ defmodule ExPression do
       {:ok, 1.5}
       iex> eval("div(x, y)", bindings: %{"x" => 5, "y" => 2}, functions_module: Kernel)
       {:ok, 2}
-      iex> eval(~s({"a": [1, 2, 3]}[a][b]), bindings: %{"a" => "a", "b" => 2})
-      {:ok, 3}
+      iex> eval(~s/{"1": "en", "2": "fr"}[str(int_code)]/, bindings: %{"int_code" => 1})
+      {:ok, "en"}
       iex> eval("not true or false or 1 == 1")
       {:ok, true}
+      iex> eval("exit(self())")
+      {:error, %ExPression.Error{name: "UndefinedFunctionError", message: "Function 'self/0' was referenced, but was not defined", data: %{function: :self}}}
   """
   @spec eval(binary(), Keyword.t()) :: {:ok, any()} | {:error, ExPression.Error.t()}
   def eval(expression_str, opts \\ []) when is_binary(expression_str) do

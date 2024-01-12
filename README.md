@@ -1,23 +1,38 @@
 # ExPression
-Define and eval expressions in runtime in your Elixir project.
+Eval user input expressions in your Elixir project.
 
-## Claims
-* JSON support - expressions support all JSON types with it's stanrad syntax
+## SAFE
+Safe evaluation without acces to other Elixir modules.
 ```elixir
-iex> ExPression.eval(~s({"a": [1, 2, 3]}[a][b]), bindings: %{"a" => "a", "b" => 2})
-{:ok, 3}
+ExPression.eval("exit(self())")
+{:error, %ExPression.Error{name: "UndefinedFunctionError", message: "Function 'self/0' was referenced, but was not defined", data: %{function: :self}}}
 ```
-* Python-like operators and standard functions
+
+## JSON
+Support for JSON syntax and data types.
 ```elixir
-iex> ExPression.eval("not true or false or 1 == 1")
-{:ok, true}
+iex> ExPression.eval("""
+{
+  "name": "ex_pression",
+  "deps": ["xpeg"]
+}
+""")
+{:ok, %{"name" => "ex_pression", "deps" => ["xpeg"]}}
 ```
-* Extend expressions by providing Elixir module with functions that you want to use.
+
+## PYTHON
+* Familiar python-like operators and standard functions.
 ```elixir
-iex> ExPression.eval("div(x, y)", bindings: %{"x" => 5, "y" => 2}, functions_module: Kernel)
+iex> ExPression.eval(~s/{"1": "en", "2": "fr"}[str(int_code)]/, bindings: %{"int_code" => 1})
+{:ok, "en"}
+```
+
+## EXTEND
+Extend expressions by providing Elixir module with functions that you want to use.
+```elixir
+iex> ExPression.eval("div(5, 2)", functions_module: Kernel)
 {:ok, 2}
 ```
-* Safe evaluation without acces to other Elixir modules.
 
 ## Features list
 - [x] JSON data types
@@ -30,11 +45,11 @@ iex> ExPression.eval("div(x, y)", bindings: %{"x" => 5, "y" => 2}, functions_mod
 - [x] Variables bindings
 - [x] Extending by providing modules with functions
 - [x] Boolean Operators
-  - [x] and, or, not
-  - [x] ==, !=, <, <=, >, >=
+  - [x] `and`, `or`, `not`
+  - [x] `==`, `!=`, `<`, `<=`, `>`, `>=`
 - [x] Math Operators
-  - [x] +, -, *, /
-  - [ ] ** (power operator)
+  - [x] `+`, `-`, `*`, `/`
+  - [ ] `**` (power operator)
 - [x] Access Operators
   - [x] Field access (`obj.field_name`)
   - [x] Access array element by index (`[1, 2, 3][0]`)
@@ -45,6 +60,10 @@ iex> ExPression.eval("div(x, y)", bindings: %{"x" => 5, "y" => 2}, functions_mod
 - [ ] AST Validations
   - [ ] Calling non existing functions
   - [ ] Invalid data types
+
+## Implementation
+String representation of expression is parsed into AST form. Parsing is done with PEG grammar parser [xpeg](https://github.com/zevv/xpeg). Grammar is defined in module `ExPression.Parsing.Grammar`.
+AST interpretation logic is written in plain `Elixir` in module `ExPression.Interpreting`.
 
 ## Contribution
 Feel free to make a pull request. All contributions are appreciated!
