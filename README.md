@@ -21,7 +21,7 @@ iex> ExPression.eval("""
 ```
 
 ## PYTHON
-* Familiar python-like operators and standard functions.
+Familiar python-like operators and standard functions.
 ```elixir
 iex> ExPression.eval(~s/{"1": "en", "2": "fr"}[str(int_code)]/, bindings: %{"int_code" => 1})
 {:ok, "en"}
