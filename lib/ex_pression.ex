@@ -1,12 +1,6 @@
 defmodule ExPression do
   @moduledoc """
-  Define and evaluate expressions in runtime in your Elixir project.
-
-  ## Features
-  * JSON support - expressions support all JSON types with it's stanrad syntax
-  * Python-like operators and standard functions
-  * Extend expressions by providing Elixir module with functions that you want to use.
-  * Safe evaluation without acces to other Elixir modules.
+  Eval user input expressions in your Elixir project.
   """
   alias ExPression.Error
   alias ExPression.Interpreting
@@ -32,7 +26,7 @@ defmodule ExPression do
   end
 
   @doc """
-  Evalate expression in string or AST format.
+  Evaluate expression.
 
   ## Options
   * `:bindings` - map variable names and values.
@@ -58,6 +52,9 @@ defmodule ExPression do
     end
   end
 
+  @doc """
+  Evaluate expression given in AST format.
+  """
   @spec eval_ast(ast(), Keyword.t()) :: {:ok, any()} | {:error, ExPression.Error.t()}
   def eval_ast(ast, opts \\ []) do
     bindings = Keyword.get(opts, :bindings, %{})

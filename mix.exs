@@ -11,7 +11,7 @@ defmodule ExPression.MixProject do
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      description: "Define and eval expressions in runtime in your Elixir project",
+      description: "Eval user input expressions in your Elixir project.",
       source_url: @source_url,
       package: package(),
       docs: docs()
