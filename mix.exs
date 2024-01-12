@@ -29,7 +29,7 @@ defmodule ExPression.MixProject do
   defp deps do
     [
       # PEG parser
-      {:xpeg, git: "https://github.com/zevv/xpeg.git"},
+      {:xpeg2, "~> 0.9.0"},
       # DEV tools
       # Docs generation
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},

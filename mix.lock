@@ -15,5 +15,5 @@
   "recode": {:hex, :recode, "0.6.5", "067335c383e807c1a6f5df22a92856f83e852f1acdbedaa2cced52df082dbe25", [:mix], [{:bunt, "~> 0.2", [hex: :bunt, repo: "hexpm", optional: false]}, {:glob_ex, "~> 0.1", [hex: :glob_ex, repo: "hexpm", optional: false]}, {:rewrite, "~> 0.9", [hex: :rewrite, repo: "hexpm", optional: false]}], "hexpm", "d03c66c1dd1ca5b19ad14a3a5fbb2218060352e91d4ad7925fb52f1915a4aabe"},
   "rewrite": {:hex, :rewrite, "0.10.0", "5d756b6dc67679e7156ff6055f9654be02dbaeb177aaf1ff6af7ee8da8718248", [:mix], [{:glob_ex, "~> 0.1", [hex: :glob_ex, repo: "hexpm", optional: false]}, {:sourceror, "~> 0.13", [hex: :sourceror, repo: "hexpm", optional: false]}], "hexpm", "68d7808cf549e7bf51b0119a8edc14d50970bad479115249030baa580c1d7b50"},
   "sourceror": {:hex, :sourceror, "0.14.1", "c6fb848d55bd34362880da671debc56e77fd722fa13b4dcbeac89a8998fc8b09", [:mix], [], "hexpm", "8b488a219e4c4d7d9ff29d16346fd4a5858085ccdd010e509101e226bbfd8efc"},
-  "xpeg": {:git, "https://github.com/zevv/xpeg.git", "7271bd3776b5a0f8ea9381a5380880e3e6d7bfe3", []},
+  "xpeg2": {:hex, :xpeg2, "0.9.0", "0a91064dfb6b9e3168eaf5d5c8f01a892329941b9e51c93a458b6bce408e4ec5", [:mix], [], "hexpm", "91152bcb0fcaf09284a7ac90ac8c4267491da70d11efcbdb21ce3d3cdb036b5d"},
 }
