@@ -1,4 +1,8 @@
 # ExPression
+[![Hex Version](https://img.shields.io/hexpm/v/ex_pression.svg)](https://hex.pm/packages/ex_pression)
+[![Docs](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/ex_pression)
+[![License](https://img.shields.io/hexpm/l/ex_pression.svg)](LICENSE)
+
 Eval user input expressions in your Elixir project.
 
 ## Installation
