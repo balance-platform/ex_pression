@@ -20,7 +20,7 @@ defmodule ExPression.Interpreting do
     with :ok <- args_find_error(args),
          {:ok, f_name} <- string_to_existing_atom(name) do
       cond do
-        context.functions_module &&
+        context.functions_module && Code.ensure_loaded(context.functions_module) &&
             Kernel.function_exported?(context.functions_module, f_name, arity) ->
           safe_fun_call(context.functions_module, f_name, args)
 
