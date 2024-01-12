@@ -1,7 +1,7 @@
 defmodule ExPression.MixProject do
   use Mix.Project
 
-  @version "0.2.0"
+  @version "0.3.0"
   @source_url "https://github.com/balance-platform/ex_pression"
 
   def project do
@@ -28,6 +28,8 @@ defmodule ExPression.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      # JSON Encode/Decode
+      {:jason, "~> 1.4"},
       # PEG parser
       {:xpeg2, "~> 0.9.0"},
       # DEV tools
