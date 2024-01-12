@@ -1,6 +1,17 @@
 # ExPression
 Eval user input expressions in your Elixir project.
 
+## Installation
+The package can be installed by adding `ex_pression` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:ex_pression, "~> 0.2.0"}
+  ]
+end
+```
+
 ## SAFE
 Safe evaluation without acces to other Elixir modules.
 ```elixir
