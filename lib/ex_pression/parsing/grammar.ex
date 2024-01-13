@@ -4,7 +4,7 @@ defmodule ExPression.Parsing.Grammar do
   """
   import Xpeg
 
-  # credo:disable-for-next-line
+  # credo:disable-for-this-file
   def peg do
     peg Expr do
       # Space characters

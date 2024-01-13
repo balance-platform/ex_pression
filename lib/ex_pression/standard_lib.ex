@@ -51,7 +51,27 @@ defmodule ExPression.StandardLib do
 
   def max(a, b), do: Kernel.max(a, b)
 
-  def pow(base, exponent) do
-    base ** exponent
+  ## Copied from Elixir sources for compatibility with Elixir versions below 1.13.0
+  def pow(base, exponent)
+
+  def pow(base, exponent) when is_integer(base) and is_integer(exponent) and exponent >= 0 do
+    integer_pow(base, 1, exponent)
   end
+
+  def pow(base, exponent) when is_number(base) and is_number(exponent) and exponent >= 0 do
+    :math.pow(base, exponent)
+  end
+
+  # https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+  defp integer_pow(_, _, 0),
+    do: 1
+
+  defp integer_pow(b, a, 1),
+    do: b * a
+
+  defp integer_pow(b, a, e) when :erlang.band(e, 1) == 0,
+    do: integer_pow(b * b, a, :erlang.bsr(e, 1))
+
+  defp integer_pow(b, a, e),
+    do: integer_pow(b * b, a * b, :erlang.bsr(e, 1))
 end

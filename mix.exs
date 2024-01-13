@@ -14,7 +14,15 @@ defmodule ExPression.MixProject do
       description: "Eval user input expressions in your Elixir project.",
       source_url: @source_url,
       package: package(),
-      docs: docs()
+      docs: docs(),
+      # Testing
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -33,14 +41,16 @@ defmodule ExPression.MixProject do
       # PEG parser
       {:xpeg2, "~> 0.9.0"},
       # DEV tools
+      # Test coverage
+      {:excoveralls, "~> 0.18.0", only: :test},
       # Docs generation
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},
       # Static Code Analysis
-      {:credo, "~> 1.7", only: :dev, runtime: false},
+      {:credo, "~> 1.7", only: [:test, :dev], runtime: false},
       # Credo formatter
       {:recode, "~> 0.6", only: :dev, runtime: false},
       # Types analysis
-      {:dialyxir, "~> 1.4", only: :dev, runtime: false}
+      {:dialyxir, "~> 1.4", only: [:test, :dev], runtime: false}
     ]
   end
 
