@@ -43,6 +43,7 @@ jobs:
           os: ubuntu-latest
           warnings_as_errors: true
           coverage: true
+          style: true
     env:
       MIX_ENV: test
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -67,6 +68,11 @@ jobs:
         key: ${{ matrix.otp }}-${{ matrix.elixir }}-build
     - run: mix compile --warnings-as-errors
       if: matrix.warnings_as_errors
+    - name: Run style and code consistency checks
+      run: |
+        mix format --check-formatted
+        mix credo --strict
+      if: ${{ matrix.style }}
     - name: Run tests
       run: mix test --trace
       if: ${{ !matrix.coverage }}
