@@ -46,11 +46,11 @@ defmodule ExPression.MixProject do
       # Docs generation
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},
       # Static Code Analysis
-      {:credo, "~> 1.7", only: :dev, runtime: false},
+      {:credo, "~> 1.7", only: [:test, :dev], runtime: false},
       # Credo formatter
       {:recode, "~> 0.6", only: :dev, runtime: false},
       # Types analysis
-      {:dialyxir, "~> 1.4", only: :dev, runtime: false}
+      {:dialyxir, "~> 1.4", only: [:test, :dev], runtime: false}
     ]
   end
 
