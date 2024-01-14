@@ -11,7 +11,7 @@ The package can be installed by adding `ex_pression` to your list of dependencie
 ```elixir
 def deps do
   [
-    {:ex_pression, "~> 0.3.0"}
+    {:ex_pression, "~> 0.3.1"}
   ]
 end
 ```
