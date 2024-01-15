@@ -4,6 +4,9 @@ defmodule ExPression.Interpreting do
   """
   alias ExPression.StandardLib
 
+  # Python boolean sematics
+  @empty_values [[], %{}, ""]
+
   @spec eval(ast :: any(), bindings :: map(), functions_module :: atom()) ::
           {:ok, res :: any()} | {:error, any()}
   def eval(ast, bindings \\ %{}, functions_module \\ nil) do
@@ -55,8 +58,15 @@ defmodule ExPression.Interpreting do
 
   defp do_eval({:not, [x]}, context) do
     case do_eval(x, context) do
-      {:error, _e} = error -> error
-      res -> not res
+      {:error, _e} = error ->
+        error
+
+      res ->
+        if res in @empty_values do
+          true
+        else
+          not res
+        end
     end
   end
 
@@ -90,25 +100,10 @@ defmodule ExPression.Interpreting do
     end
   end
 
-  # credo:disable-for-next-line
   defp do_eval({op, [a, b]}, context) do
     with a when not is_tuple(a) <- do_eval(a, context),
          b when not is_tuple(b) <- do_eval(b, context) do
-      case op do
-        :* -> a * b
-        :/ -> a / b
-        :+ -> a + b
-        :- -> a - b
-        :and -> a and b
-        :or -> a or b
-        :== -> a == b
-        :!= -> a != b
-        :> -> a > b
-        :>= -> a >= b
-        :< -> a < b
-        :<= -> a <= b
-        :access -> eval_access(a, b)
-      end
+      eval_bin_op(op, a, b)
     end
   end
 
@@ -116,12 +111,85 @@ defmodule ExPression.Interpreting do
     atom_node
   end
 
-  defp eval_access(%{} = a, b) do
+  defp eval_bin_op(:*, a, b) when is_number(a) and is_number(b) do
+    a * b
+  end
+
+  defp eval_bin_op(:/, a, b) when is_number(a) and is_number(b) do
+    a / b
+  end
+
+  defp eval_bin_op(:/, a, b) do
+    {:bad_op_arg_types, {:/, a, b}}
+  end
+
+  defp eval_bin_op(:+, a, b) when is_number(a) and is_number(b) do
+    a + b
+  end
+
+  defp eval_bin_op(:+, a, b) when is_binary(a) and is_binary(b) do
+    a <> b
+  end
+
+  defp eval_bin_op(:-, a, b) when is_number(a) and is_number(b) do
+    a - b
+  end
+
+  # Python semantics for boolean ops
+
+  defp eval_bin_op(:and, a, b) do
+    if a in @empty_values do
+      a
+    else
+      a && b
+    end
+  end
+
+  defp eval_bin_op(:or, a, b) do
+    if a in @empty_values do
+      b
+    else
+      a || b
+    end
+  end
+
+  defp eval_bin_op(:==, a, b) do
+    a == b
+  end
+
+  defp eval_bin_op(:!=, a, b) do
+    a != b
+  end
+
+  # Python semantics regarding comparison
+
+  defp eval_bin_op(op, a, b) when op in [:>, :>=, :<, :<=] and is_number(a) and is_number(b) do
+    apply(Kernel, op, [a, b])
+  end
+
+  defp eval_bin_op(op, a, b) when op in [:>, :>=, :<, :<=] and is_binary(a) and is_binary(b) do
+    apply(Kernel, op, [a, b])
+  end
+
+  defp eval_bin_op(op, a, b)
+       when op in [:>, :>=, :<, :<=] and a in [true, false] and b in [true, false] do
+    apply(Kernel, op, [a, b])
+  end
+
+  defp eval_bin_op(op, a, b) when op in [:>, :>=, :<, :<=] and is_list(a) and is_list(b) do
+    apply(Kernel, op, [length(a), length(b)])
+  end
+
+  defp eval_bin_op(:access, %{} = a, b) do
     a[b]
   end
 
-  defp eval_access(a, b) when is_list(a) do
+  defp eval_bin_op(:access, a, b) when is_list(a) do
     Enum.at(a, b)
+  end
+
+  defp eval_bin_op(op, a, b) do
+    {:error, {:bad_op_arg_types, {op, [a, b]}}}
   end
 
   defp args_find_error(args) do
