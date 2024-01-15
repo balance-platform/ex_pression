@@ -80,5 +80,13 @@ defmodule ExPression.StandardLibTest do
     test "number" do
       assert 8 == StandardLib.pow(2, 3)
     end
+
+    test "float" do
+      assert 9.85 == StandardLib.pow(2, 3.3) |> Float.round(2)
+    end
+
+    test "zero" do
+      assert 1 == StandardLib.pow(2, 0)
+    end
   end
 end

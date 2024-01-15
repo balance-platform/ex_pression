@@ -91,4 +91,15 @@ defmodule ExPression do
       %{function: fun, args: args, exception: exception, message: msg}
     )
   end
+
+  defp build_eval_error({:bad_op_arg_types, {op, args}}) do
+    Error.new(
+      "BadOperationArgumentTypes",
+      "Opeartion '#{op}' does not support argument types of #{inspect(args)}",
+      %{
+        operation: op,
+        arguments: args
+      }
+    )
+  end
 end
