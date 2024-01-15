@@ -2,6 +2,7 @@
 [![Hex Version](https://img.shields.io/hexpm/v/ex_pression.svg)](https://hex.pm/packages/ex_pression)
 [![Docs](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/ex_pression)
 [![License](https://img.shields.io/hexpm/l/ex_pression.svg)](LICENSE)
+[![Coverage Status](https://coveralls.io/repos/github/balance-platform/ex_pression/badge.svg?branch=master)](https://coveralls.io/github/balance-platform/ex_pression?branch=master)
 
 Eval user input expressions in your Elixir project.
 
