@@ -102,4 +102,15 @@ defmodule ExPression do
       }
     )
   end
+
+  defp build_eval_error({:special_without_module, special, value}) do
+    Error.new(
+      "SpecialWithoutModule",
+      "Special symbol '#{special}' used with value #{value}, but no functions module was provided",
+      %{
+        special: special,
+        value: value
+      }
+    )
+  end
 end

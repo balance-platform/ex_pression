@@ -100,6 +100,13 @@ defmodule ExPression.Interpreting do
     end
   end
 
+  defp do_eval({:special, [special, value]}, context) do
+    case context.functions_module do
+      nil -> {:error, {:special_without_module, special, value}}
+      module -> module.handle_special(special, value)
+    end
+  end
+
   defp do_eval({op, [a, b]}, context) do
     with a when not is_tuple(a) <- do_eval(a, context),
          b when not is_tuple(b) <- do_eval(b, context) do
