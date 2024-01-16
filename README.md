@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/hexpm/l/ex_pression.svg)](LICENSE)
 [![Coverage Status](https://coveralls.io/repos/github/balance-platform/ex_pression/badge.svg?branch=master)](https://coveralls.io/github/balance-platform/ex_pression?branch=master)
 
-Eval user input expressions in your Elixir project.
+Evaluate user input expressions in your Elixir project.
 
 ## Installation
 The package can be installed by adding `ex_pression` to your list of dependencies in `mix.exs`:
