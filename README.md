@@ -17,15 +17,14 @@ def deps do
 end
 ```
 
-## SAFE
-Safe evaluation without acces to other Elixir modules.
+## Key features
+1. **Safe** evaluation without acces to other Elixir modules.
 ```elixir
 iex> ExPression.eval("exit(self())")
 {:error, %ExPression.Error{name: "UndefinedFunctionError", message: "Function 'self/0' was referenced, but was not defined", data: %{function: :self}}}
 ```
 
-## JSON
-Support for JSON syntax and data types.
+2. Support for **JSON** syntax and data types.
 ```elixir
 iex> ExPression.eval("""
 {
@@ -36,15 +35,15 @@ iex> ExPression.eval("""
 {:ok, %{"name" => "ex_pression", "deps" => ["xpeg"]}}
 ```
 
-## PYTHON
-Familiar python-like operators and standard functions.
+3. Familiar **python**-like operators and standard functions.
 ```elixir
 iex> ExPression.eval(~s/{"1": "en", "2": "fr"}[str(int_code)]/, bindings: %{"int_code" => 1})
 {:ok, "en"}
+iex> ExPression.eval("str(1)")
+{:ok, "1"}
 ```
 
-## EXTEND
-Extend expressions by providing Elixir module with functions that you want to use.
+4. **Extend** expressions by providing Elixir module with functions that you want to use.
 ```elixir
 defmodule MyFunctions do
   # use $ special symbol in expressions
@@ -57,32 +56,7 @@ iex> ExPression.eval(~s/diff($"2023-02-02", $"2022-02-02")/, functions_module: M
 {:ok, 365}
 ```
 
-## Features list
-- [x] JSON data types
-  - [x] Integer
-  - [x] Float
-  - [x] String
-  - [x] Array
-  - [x] Object
-- [x] Standrad library of functions
-- [x] Variables bindings
-- [x] Extending by providing modules with functions
-- [x] Boolean Operators
-  - [x] `and`, `or`, `not`
-  - [x] `==`, `!=`, `<`, `<=`, `>`, `>=`
-- [x] Math Operators
-  - [x] `+`, `-`, `*`, `/`
-  - [ ] `**` (power operator)
-- [x] Access Operators
-  - [x] Field access (`obj.field_name`)
-  - [x] Access array element by index (`[1, 2, 3][0]`)
-  - [x] Access object field in runtime (`{"fr": "France", "en": "England"}[country]`)
-- [x] Error handling
-  - [x] Syntax errors 
-  - [x] Runtime errors
-- [ ] AST Validations
-  - [ ] Calling non existing functions
-  - [ ] Invalid data types
+Full language description can be found in [FULL_DESCRIPTION.md](./FULL_DESCRIPTION.md)
 
 ## Implementation
 String representation of expression is parsed into AST form. Parsing is done with PEG grammar parser [xpeg](https://github.com/zevv/xpeg). Grammar is defined in module `ExPression.Parsing.Grammar`.

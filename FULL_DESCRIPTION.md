@@ -120,7 +120,7 @@ iex> ExPression.eval(~s([] < [1, 2] and "12" < "123"))
 ```
 
 ## Function calls <a name="function-calls"></a>
-Familiar syntax for function calls with standard library of functions [TODO: link].
+Familiar syntax for function calls with [standard library of functions](#std).
 ```elixir
 iex> ExPression.eval("min(1, 2)")
 {:ok, 1}
