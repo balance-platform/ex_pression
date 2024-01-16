@@ -46,8 +46,15 @@ iex> ExPression.eval(~s/{"1": "en", "2": "fr"}[str(int_code)]/, bindings: %{"int
 ## EXTEND
 Extend expressions by providing Elixir module with functions that you want to use.
 ```elixir
-iex> ExPression.eval("div(5, 2)", functions_module: Kernel)
-{:ok, 2}
+defmodule MyFunctions do
+  # use $ special symbol in expressions
+  def handle_special("$", date_str), do: Date.from_iso8601!(date_str)
+  # Use diff function in expresions
+  def diff(date_1, date_2), do: Date.diff(date_1, date_2)
+end
+
+iex> ExPression.eval(~s/diff($"2023-02-02", $"2022-02-02")/, functions_module: MyFunctions)
+{:ok, 365}
 ```
 
 ## Features list
