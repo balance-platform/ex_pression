@@ -67,7 +67,7 @@ defmodule ExPression.MixProject do
       main: "readme",
       source_url: @source_url,
       source_ref: "v#{@version}",
-      extras: ["README.md", "LICENSE"],
+      extras: ["README.md", "LICENSE", "FULL_DESCRIPTION.md"],
       filter_modules: "ExPression"
     ]
   end
