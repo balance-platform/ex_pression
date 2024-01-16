@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/hexpm/l/ex_pression.svg)](LICENSE)
 [![Coverage Status](https://coveralls.io/repos/github/balance-platform/ex_pression/badge.svg?branch=master)](https://coveralls.io/github/balance-platform/ex_pression?branch=master)
 
-Evaluate user input expressions
+Evaluate user input expressions.
 
 ## Installation
 The package can be installed by adding `ex_pression` to your list of dependencies in `mix.exs`:
