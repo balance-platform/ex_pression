@@ -20,7 +20,7 @@ end
 ## SAFE
 Safe evaluation without acces to other Elixir modules.
 ```elixir
-ExPression.eval("exit(self())")
+iex> ExPression.eval("exit(self())")
 {:error, %ExPression.Error{name: "UndefinedFunctionError", message: "Function 'self/0' was referenced, but was not defined", data: %{function: :self}}}
 ```
 
