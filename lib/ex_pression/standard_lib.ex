@@ -37,7 +37,7 @@ defmodule ExPression.StandardLib do
   """
   def int(term)
   def int(term) when is_number(term), do: trunc(term)
-  def int(term) when is_binary(term), do: String.to_integer(term)
+  def int(term) when is_binary(term), do: term |> Integer.parse() |> elem(0)
 
   def round(number) when is_number(number), do: Kernel.round(number)
 
