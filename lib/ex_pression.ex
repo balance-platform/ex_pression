@@ -1,6 +1,6 @@
 defmodule ExPression do
   @moduledoc """
-  Evaluate user input expressions in your Elixir project.
+  Evaluate user input expression.
   """
   alias ExPression.Error
   alias ExPression.Interpreting
