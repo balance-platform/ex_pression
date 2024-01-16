@@ -39,8 +39,6 @@ iex> ExPression.eval("""
 ```elixir
 iex> ExPression.eval(~s/{"1": "en", "2": "fr"}[str(int_code)]/, bindings: %{"int_code" => 1})
 {:ok, "en"}
-iex> ExPression.eval("str(1)")
-{:ok, "1"}
 ```
 
 4. **Extend** expressions by providing Elixir module with functions that you want to use.
