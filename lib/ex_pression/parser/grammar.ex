@@ -1,4 +1,4 @@
-defmodule ExPression.Parsing.Grammar do
+defmodule ExPression.Parser.Grammar do
   @moduledoc """
   Expressions formal language grammar definition
   """

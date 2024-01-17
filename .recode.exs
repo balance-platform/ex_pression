@@ -13,7 +13,7 @@
     Enum.flat_map(
       ["{mix,.formatter,.recode,.credo}.exs", "{config,lib,test}/**/*.{ex,exs}"],
       &Path.wildcard(&1, match_dot: true)
-    ) -- ["lib/ex_pression/parsing/grammar.ex"],
+    ) -- ["lib/ex_pression/parser/grammar.ex"],
   formatter: {Recode.Formatter, []},
   tasks: [
     # Tasks could be added by a tuple of the tasks module name and an options

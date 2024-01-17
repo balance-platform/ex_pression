@@ -3,6 +3,6 @@
     "minimum_coverage": 90 
   },
   "skip_files": [
-    "lib/ex_pression/parsing/grammar.ex"
+    "lib/ex_pression/parser/grammar.ex"
   ]
 }

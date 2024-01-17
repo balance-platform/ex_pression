@@ -1,8 +1,8 @@
-defmodule ExPression.Parsing do
+defmodule ExPression.Parser do
   @moduledoc """
   Parsing expressions in strings format with convertion to AST format
   """
-  alias ExPression.Parsing.Grammar
+  alias ExPression.Parser.Grammar
   @peg Grammar.peg()
 
   @spec parse(binary()) :: {:ok, ast :: any()} | {:error, {:parsing_error, binary()}}
