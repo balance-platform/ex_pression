@@ -1,4 +1,4 @@
-defmodule ExPression.Interpreting do
+defmodule ExPression.Interpreter do
   @moduledoc """
   Evaluating AST
   """

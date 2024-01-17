@@ -57,8 +57,8 @@ iex> ExPression.eval(~s/diff($"2023-02-02", $"2022-02-02")/, functions_module: M
 Full language description can be found in [FULL_DESCRIPTION.md](./FULL_DESCRIPTION.md)
 
 ## Implementation
-String representation of expression is parsed into AST form. Parsing is done with PEG grammar parser [xpeg](https://github.com/zevv/xpeg). Grammar is defined in module `ExPression.Parsing.Grammar`.
-AST interpretation logic is written in plain `Elixir` in module `ExPression.Interpreting`.
+String representation of expression is parsed into AST form. Parser is done with PEG grammar parser [xpeg](https://github.com/zevv/xpeg). Grammar is defined in module `ExPression.Parser.Grammar`.
+AST interpretation logic is written in plain `Elixir` in module `ExPression.Interpreter`.
 
 ## Contribution
 Feel free to make a pull request. All contributions are appreciated!

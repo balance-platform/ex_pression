@@ -3,8 +3,8 @@ defmodule ExPression do
   Evaluate user input expression.
   """
   alias ExPression.Error
-  alias ExPression.Interpreting
-  alias ExPression.Parsing
+  alias ExPression.Interpreter
+  alias ExPression.Parser
 
   @type ast() :: any()
 
@@ -15,7 +15,7 @@ defmodule ExPression do
   """
   @spec parse(binary()) :: {:ok, ast()} | {:error, ExPression.Error.t()}
   def parse(expression_str) when is_binary(expression_str) do
-    case Parsing.parse(expression_str) do
+    case Parser.parse(expression_str) do
       {:ok, ast} ->
         {:ok, ast}
 
@@ -60,7 +60,7 @@ defmodule ExPression do
     bindings = Keyword.get(opts, :bindings, %{})
     functions_module = Keyword.get(opts, :functions_module)
 
-    case Interpreting.eval(ast, bindings, functions_module) do
+    case Interpreter.eval(ast, bindings, functions_module) do
       {:ok, res} ->
         {:ok, res}
 
