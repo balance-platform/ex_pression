@@ -5,7 +5,7 @@ defmodule ExPression.Interpreter do
   alias ExPression.StandardLib
 
   # Python boolean sematics
-  @empty_values [[], %{}, ""]
+  @empty_values [0, [], %{}, ""]
 
   @spec eval(ast :: any(), bindings :: map(), functions_module :: atom()) ::
           {:ok, res :: any()} | {:error, any()}
