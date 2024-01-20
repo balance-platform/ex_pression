@@ -18,7 +18,7 @@ end
 ```
 
 ## Key features
-1. **Safe** evaluation without acces to other Elixir modules.
+1. **Safe** evaluation without access to other Elixir modules.
 ```elixir
 iex> ExPression.eval("exit(self())")
 {:error, %ExPression.Error{name: "UndefinedFunctionError", message: "Function 'self/0' was referenced, but was not defined", data: %{function: :self}}}
@@ -46,7 +46,7 @@ iex> ExPression.eval(~s/{"1": "en", "2": "fr"}[str(int_code)]/, bindings: %{"int
 defmodule MyFunctions do
   # use $ special symbol in expressions
   def handle_special("$", date_str), do: Date.from_iso8601!(date_str)
-  # Use diff function in expresions
+  # Use diff function in expressions
   def diff(date_1, date_2), do: Date.diff(date_1, date_2)
 end
 
