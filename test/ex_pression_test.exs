@@ -45,6 +45,28 @@ defmodule ExPressionTest do
     end
   end
 
+  describe "#weird path" do
+    defmodule MyWeirdFunctions do
+      def handle_special("$", value) do
+        ">>>#{value}<<<"
+      end
+    end
+
+    test "build json with subfunction" do
+      expression = """
+      {
+        "val1": $123,
+        "val2": $222,
+        "list": [$1, 2, $3]
+      }
+      """
+
+      assert {:ok,
+              %{"val1" => ">>>123<<<", "val2" => ">>>222<<<", "list" => [">>>1<<<", 2, ">>>3<<<"]}} ==
+               ExPression.eval(expression, functions_module: MyWeirdFunctions)
+    end
+  end
+
   describe "#sad_path" do
     test "Parsing error" do
       assert {:error,
