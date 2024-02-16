@@ -44,6 +44,10 @@ defmodule ExPression.ParserTest do
       assert {:ok, {:and, [true, false]}} == Parser.parse("true and false")
     end
 
+    test "bool 3" do
+      assert {:ok, {:and, [true, false]}} == Parser.parse("True and False")
+    end
+
     test "access 1" do
       assert {:ok, {:access, [{:array, [1, 2]}, 0]}} == Parser.parse("[1, 2][0]")
     end

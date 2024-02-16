@@ -12,7 +12,9 @@ defmodule ExPression.Parser.Grammar do
 
       # Basic atoms
       True <- "true" * fn cs -> [true | cs] end
+      TrueP <- "True" * fn cs -> [true | cs] end
       False <- "false" * fn cs -> [false | cs] end
+      FalseP <- "False" * fn cs -> [false | cs] end
       Null <- "null" * fn cs -> [nil | cs] end
 
       # Strings
@@ -26,7 +28,7 @@ defmodule ExPression.Parser.Grammar do
       Integer <- int(opt('-') * ('0' | {'1'..'9'}) * star({'0'..'9'}))
       Float <- float(opt('-') * ('0' | {'1'..'9'}) * star({'0'..'9'}) * (("." * +{'0'..'9'}) | ({'e', 'E'} * opt({'+', '-'}) * +{'0'..'9'})))
 
-      KeyWord <- ("false" | "true" | "null" | "or" | "and" | "not")
+      KeyWord <- ("False" | "True" | "false" | "true" | "null" | "or" | "and" | "not")
       IdentifierRest <- {'a'..'z', 'A'..'Z', '_', '0'..'9'}
       Identifier1 <- {'a'..'z', 'A'..'Z', '_'} * star(IdentifierRest)
       Identifier <- str((KeyWord * Identifier1) | (!KeyWord * Identifier1))
@@ -39,8 +41,8 @@ defmodule ExPression.Parser.Grammar do
       L5 <- L6 * star(L5BinOp)
       L6 <- L7 * star(L6BinOp)
       L7 <- (Special | FCall | Object | Array | Var | Const | "(" * star(S) * Expr * star(S) * ")") * star(AccessOp)
+      Const <- String | Float | Integer  | Null | True | False | TrueP | FalseP
       Var <- Identifier * fn [name | cs] -> [{:var, [name]} | cs] end
-      Const <- String | Float | Integer  | Null | True | False
 
       Special <- str("$") * (String | str(+IdentifierRest)) * fn [value, special | cs] -> [{:special, [special, value]} | cs] end
 

@@ -44,7 +44,10 @@ defmodule ExPression.Interpreter do
       {:error, _e} = error ->
         error
 
-      obj ->
+      obj when is_struct(obj) ->
+        Map.get(obj, String.to_existing_atom(field_name))
+
+      obj when is_map(obj) ->
         Map.get(obj, field_name)
     end
   end

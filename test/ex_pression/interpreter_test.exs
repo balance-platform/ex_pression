@@ -13,6 +13,29 @@ defmodule ExPression.InterpreterTest do
     end
   end
 
+  describe "#deep inside" do
+    defmodule ObjWithStruct do
+      defstruct [:field]
+
+      def some_result do
+        %{"key" => %__MODULE__{field: "Hello world"}}
+      end
+    end
+
+    test "function_call and deep dig" do
+      {:ok, ast} = Parser.parse("some_result().key.field")
+      assert {:ok, "Hello world"} == Interpreter.eval(ast, %{}, ObjWithStruct)
+    end
+
+    test "function_call and deep dig (sad path)" do
+      {:ok, ast} = Parser.parse("some_result().key.unknown_field")
+
+      assert_raise(ArgumentError, ~r/existing atom/, fn ->
+        Interpreter.eval(ast, %{}, ObjWithStruct)
+      end)
+    end
+  end
+
   describe "#happy_path" do
     test "function call" do
       {:ok, ast} = Parser.parse("div(5, 2)")
@@ -137,6 +160,11 @@ defmodule ExPression.InterpreterTest do
     test "access 4" do
       {:ok, ast} = Parser.parse(~s({"a": "b", "c": "d"}[x]))
       assert {:ok, "d"} == Interpreter.eval(ast, %{"x" => "c"})
+    end
+
+    test "access 5" do
+      {:ok, ast} = Parser.parse(~s({"ключ 1": 1, "ключ 2": 2}["ключ 1"]))
+      assert {:ok, 1} == Interpreter.eval(ast, %{"x" => "c"})
     end
   end
 
