@@ -20,9 +20,18 @@ defmodule ExPression.InterpreterTest do
       def some_result do
         %{"key" => %__MODULE__{field: "Hello world"}}
       end
+
+      def another_result do
+        %{"KeyOneTwoThree" => %{"SubKey" => "Hello"}}
+      end
     end
 
-    test "function_call and deep dig" do
+    test "function_call and deep dig 1" do
+      {:ok, ast} = Parser.parse("another_result().KeyOneTwoThree.SubKey")
+      assert {:ok, "Hello"} == Interpreter.eval(ast, %{}, ObjWithStruct)
+    end
+
+    test "function_call and deep dig 2" do
       {:ok, ast} = Parser.parse("some_result().key.field")
       assert {:ok, "Hello world"} == Interpreter.eval(ast, %{}, ObjWithStruct)
     end
@@ -165,6 +174,11 @@ defmodule ExPression.InterpreterTest do
     test "access 5" do
       {:ok, ast} = Parser.parse(~s({"ключ 1": 1, "ключ 2": 2}["ключ 1"]))
       assert {:ok, 1} == Interpreter.eval(ast, %{"x" => "c"})
+    end
+
+    test "access 6" do
+      {:ok, ast} = Parser.parse(~s({"key.with.dot": 54321}["key.with.dot"]))
+      assert {:ok, 54_321} == Interpreter.eval(ast)
     end
   end
 
