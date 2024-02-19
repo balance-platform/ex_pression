@@ -78,6 +78,9 @@ iex> ExPression.eval("new_date(2024, 1, 1)", functions_module: MyFunctions)
 ```elixir
 iex> ExPression.eval(~s({"en": "England", "fr": "France"}.fr))
 {:ok, "France"}
+# dot operator also works with atom keys
+iex> ExPression.eval("x.year", bindings: %{"x" => ~D[2022-02-02]})
+{:ok, 2022}
 ```
 2. Access object's field value with braces (in braces can be any expression):
 ```elixir
