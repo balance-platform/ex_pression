@@ -43,6 +43,10 @@ defmodule ExPressionTest do
     test "Strings concatenation" do
       assert {:ok, "abcde"} == ExPression.eval(~s("abc" + "de"))
     end
+
+    test "dot access operator works with atom keys" do
+      assert {:ok, 2022} == ExPression.eval("x.year", bindings: %{"x" => ~D[2022-02-02]})
+    end
   end
 
   describe "#weird path" do
