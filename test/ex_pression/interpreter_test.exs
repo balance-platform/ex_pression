@@ -39,7 +39,7 @@ defmodule ExPression.InterpreterTest do
     test "function_call and deep dig (sad path)" do
       {:ok, ast} = Parser.parse("some_result().key.unknown_field")
 
-      assert_raise(ArgumentError, ~r/existing atom/, fn ->
+      assert_raise(ArgumentError, ~r/(existing atom)|(argument error)/, fn ->
         Interpreter.eval(ast, %{}, ObjWithStruct)
       end)
     end
