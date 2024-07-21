@@ -31,6 +31,10 @@ defmodule ExPressionTest do
       assert {:ok, "Привет!"} == ExPression.eval(~s("Привет!"))
     end
 
+    test "Support unicode multi byte symbols in strings" do
+      assert {:ok, "Café au Crème"} == ExPression.eval(~s("Café au Crème"))
+    end
+
     test "Multi line JSON" do
       assert {:ok, %{"a" => "b"}} ==
                ExPression.eval("""
