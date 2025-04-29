@@ -110,6 +110,40 @@ defmodule ExPression.Interpreter do
     end
   end
 
+  # Python semantics for boolean ops
+
+  defp do_eval({:and, [a, b]}, context) do
+    a = do_eval(a, context)
+
+    cond do
+      is_tuple(a) ->
+        a
+
+      !a or a in @empty_values ->
+        a
+
+      true ->
+        b = do_eval(b, context)
+        a && b
+    end
+  end
+
+  defp do_eval({:or, [a, b]}, context) do
+    a = do_eval(a, context)
+
+    cond do
+      is_tuple(a) ->
+        a
+
+      a ->
+        a
+
+      true ->
+        b = do_eval(b, context)
+        a || b
+    end
+  end
+
   defp do_eval({op, [a, b]}, context) do
     with a when not is_tuple(a) <- do_eval(a, context),
          b when not is_tuple(b) <- do_eval(b, context) do
@@ -146,22 +180,6 @@ defmodule ExPression.Interpreter do
   end
 
   # Python semantics for boolean ops
-
-  defp eval_bin_op(:and, a, b) do
-    if a in @empty_values do
-      a
-    else
-      a && b
-    end
-  end
-
-  defp eval_bin_op(:or, a, b) do
-    if a in @empty_values do
-      b
-    else
-      a || b
-    end
-  end
 
   defp eval_bin_op(:==, a, b) do
     a == b

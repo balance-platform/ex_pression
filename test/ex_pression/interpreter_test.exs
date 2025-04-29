@@ -11,6 +11,10 @@ defmodule ExPression.InterpreterTest do
     def concat(a, b, c) do
       "#{a}#{b}#{c}"
     end
+
+    def check_is_true(value) do
+      value == true
+    end
   end
 
   describe "#deep inside" do
@@ -119,6 +123,16 @@ defmodule ExPression.InterpreterTest do
     test "bool 5" do
       {:ok, ast} = Parser.parse("1 != 1")
       assert {:ok, false} == Interpreter.eval(ast)
+    end
+
+    test "bool(and): ignore right part if left is false" do
+      {:ok, ast} = Parser.parse("check_is_true(false) and 1 / 0")
+      assert {:ok, false} == Interpreter.eval(ast, %{}, TestModule)
+    end
+
+    test "bool(or): ignore right part if left is true" do
+      {:ok, ast} = Parser.parse("check_is_true(true) or 1 / 0")
+      assert {:ok, true} == Interpreter.eval(ast, %{}, TestModule)
     end
 
     test "array 1" do
