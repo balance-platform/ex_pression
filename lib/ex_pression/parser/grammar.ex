@@ -8,7 +8,7 @@ defmodule ExPression.Parser.Grammar do
   def peg do
     peg Expr do
       # Space characters
-      S <- {' ', '\t', '\r', '\n'}
+      S <- {?\s, ?\t, ?\r, ?\n}
 
       # Basic atoms
       True <- ("True" | "true") * fn cs -> [true | cs] end
@@ -16,19 +16,19 @@ defmodule ExPression.Parser.Grammar do
       Null <- ("None" | "null") * fn cs -> [nil | cs] end
 
       # Strings
-      Xdigit <- {'0'..'9', 'a'..'f', 'A'..'F'}
-      Unicode_escape <- 'u' * Xdigit[4]
-      Escape <- '\\' * ({'"', '\\', '/', 'b', 'f', 'n', 'r', 't'} | Unicode_escape)
-      String_body <- star(Escape) * star(+({'\x20'..'\x7f', 'а'..'я', 'А'..'Я', '\xC2\xA0'..'\xC2\xBF', '\xC3\x80'..'\xC3\xBF'} - {'"'} - {'\\'}) * star(Escape))
-      String <- '"' * str(String_body) * '"'
+      Xdigit <- {?0..?9, ?a..?f, ?A..?F}
+      Unicode_escape <- {?u} * Xdigit[4]
+      Escape <- {?\\} * ({?", ?\\, ?/, ?b, ?f, ?n, ?r, ?t} | Unicode_escape)
+      String_body <- star(Escape) * star(+({?\s..?~, ?а..?я, ?А..?Я, 0xA0..0xBF, 0xC0..0xFF} - {?"} - {?\\}) * star(Escape))
+      String <- {?"} * str(String_body) * {?"}
 
       # Numbers
-      Integer <- int(opt('-') * ('0' | {'1'..'9'}) * star({'0'..'9'}))
-      Float <- float(opt('-') * ('0' | {'1'..'9'}) * star({'0'..'9'}) * (("." * +{'0'..'9'}) | ({'e', 'E'} * opt({'+', '-'}) * +{'0'..'9'})))
+      Integer <- int(opt("-") * ("0" | {?1..?9}) * star({?0..?9}))
+      Float <- float(opt("-") * ("0" | {?1..?9}) * star({?0..?9}) * (("." * +{?0..?9}) | ({?e, ?E} * opt({?+, ?-}) * +{?0..?9})))
 
       KeyWord <- ("None" | "False" | "True" | "false" | "true" | "null" | "or" | "and" | "not")
-      IdentifierRest <- {'a'..'z', 'A'..'Z', '_', '0'..'9'}
-      Identifier1 <- {'a'..'z', 'A'..'Z', '_'} * star(IdentifierRest)
+      IdentifierRest <- {?a..?z, ?A..?Z, ?_, ?0..?9}
+      Identifier1 <- {?a..?z, ?A..?Z, ?_} * star(IdentifierRest)
       Identifier <- str((KeyWord * Identifier1) | (!KeyWord * Identifier1))
 
       # Expressions
@@ -88,14 +88,14 @@ defmodule ExPression.Parser.Grammar do
         end
       end
 
-      L5BinOp <- star(S) * str({'+', '-'}) * star(S) * L5 * fn [b, op, a | cs] ->
+      L5BinOp <- star(S) * str({?+, ?-}) * star(S) * L5 * fn [b, op, a | cs] ->
         case op do
           "+" -> [{:+, [a, b]} | cs]
           "-" -> [{:-, [a, b]} | cs]
         end
       end
 
-      L6BinOp <- star(S) * str({'*', '/'}) * star(S) * L6 * fn [b, op, a | cs] ->
+      L6BinOp <- star(S) * str({?*, ?/}) * star(S) * L6 * fn [b, op, a | cs] ->
         case op do
           "*" -> [{:*, [a, b]} | cs]
           "/" -> [{:/, [a, b]} | cs]

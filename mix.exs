@@ -16,8 +16,13 @@ defmodule ExPression.MixProject do
       package: package(),
       docs: docs(),
       # Testing
-      test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
+      test_coverage: [tool: ExCoveralls]
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
@@ -39,7 +44,7 @@ defmodule ExPression.MixProject do
       # JSON Encode/Decode
       {:jason, "~> 1.4"},
       # PEG parser
-      {:xpeg2, "~> 0.9.0"},
+      {:xpeg2, github: "Houdini/xpeg2", branch: "fix-warnings-2"},
       # DEV tools
       # Test coverage
       {:excoveralls, "~> 0.18.0", only: :test},
